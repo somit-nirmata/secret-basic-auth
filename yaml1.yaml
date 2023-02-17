@@ -26,7 +26,7 @@ spec:
         conditions:
           all:
           - key: "{{ request.object.data.keys(@)}}"
-            operator: AnyNotIn
+            operator: Equals
             value:
             - password
             - username
