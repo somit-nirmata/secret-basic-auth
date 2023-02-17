@@ -25,7 +25,7 @@ spec:
       deny:
         conditions:
           all:
-          - key: "{{ request.object.metadata.data.keys(@)}}"
+          - key: "{{ request.object.data.keys(@)}}"
             operator: AnyNotIn
             value:
             - password
