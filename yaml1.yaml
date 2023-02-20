@@ -13,9 +13,8 @@ spec:
     validate:
       message: "Secrets containing both 'username' and 'password' fields are not allowed."
       pattern:
-        spec:
-          data:
-            username: "[a-zA-Z0-9+/=]+"
-            password: "[a-zA-Z0-9+/=]+"
+        data:
+          username: "[a-zA-Z0-9+/=]+"
+          password: "[a-zA-Z0-9+/=]+"
       anyPattern: true
       deny: {}
