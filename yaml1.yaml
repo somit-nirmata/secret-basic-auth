@@ -14,7 +14,7 @@ spec:
       message: "Secrets containing both 'username' and 'password' fields are not allowed."
       pattern:
         data:
-          username: "[a-zA-Z0-9+/=]+"
-          password: "[a-zA-Z0-9+/=]+"
+          username: "*"
+          password: "*"
       anyPattern: true
       deny: {}
