@@ -3,6 +3,7 @@ kind: ClusterPolicy
 metadata:
   name: deny-secrets-with-username-password
 spec:
+  validationFailureAction: audit
   background: false
   rules:
   - name: deny-secrets-with-username-password
