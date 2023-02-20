@@ -14,8 +14,6 @@ spec:
     validate:
       message: "Secrets containing both 'username' and 'password' fields are not allowed."
       pattern:
-        data:
-          username: "*"
-          password: "*"
-      anyPattern: true
-      deny: {}
+        =(data):
+          X(username): "*?"
+      
