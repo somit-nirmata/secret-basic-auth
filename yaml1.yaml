@@ -1,32 +1,21 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: restrict-basic-auth-secrets
-  annotations:
-    policies.kyverno.io/title: Restrict Basic Auth Secrets
-    policies.kyverno.io/category: Other
-    policies.kyverno.io/subject: Pod, Secret
-    kyverno.io/kyverno-version: 1.6.0
-    kyverno.io/kubernetes-version: "1.21"
-    policies.kyverno.io/description: >-
-      Restrict Basic Auth Secerets. This type of secret has data fileds username and password      
+  name: deny-secrets-with-username-password
 spec:
-  background: true
-  validationFailureAction: audit
+  background: false
   rules:
-  - name: safe-secrets-from-env
+  - name: deny-secrets-with-username-password
     match:
-      any:
-      - resources:
-          kinds:
-          - Secret
+      resources:
+        kinds:
+        - Secret
     validate:
-      message: The only approved FluxCD annotations are `fluxcd.io/cow` and `fluxcd.io/dog`.
-      deny:
-        conditions:
-          all:
-          - key: "{{ request.object.data.keys(@)}}"
-            operator: Equals
-            value:
-            - password
-            - username
+      message: "Secrets containing both 'username' and 'password' fields are not allowed."
+      pattern:
+        spec:
+          data:
+            username: "[a-zA-Z0-9+/=]+"
+            password: "[a-zA-Z0-9+/=]+"
+      anyPattern: true
+      deny: {}
