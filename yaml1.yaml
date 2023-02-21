@@ -20,9 +20,13 @@ spec:
         kinds:
         - Secret
     validate:
-      message: "Secrets containing both 'username' and 'password' fields are not allowed."
-      pattern:
-        data:
-          X(username): "*?"
-          X(password): "*?"
+      message: The only approved FluxCD annotations are `fluxcd.io/cow` and `fluxcd.io/dog`.
+      deny:
+        conditions:
+          all:
+          - key: "{{ request.object.data.keys(@)[?contains(@, 'username','password')] }}"
+            operator: NotEquals
+            value:
+            - username
+            - password
       
