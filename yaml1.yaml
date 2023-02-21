@@ -23,5 +23,6 @@ spec:
       message: "Secrets containing both 'username' and 'password' fields are not allowed."
       pattern:
         =(data):
-          !username: "*?"
+          X(username): "*?"
+          X(password): "*?"
       
