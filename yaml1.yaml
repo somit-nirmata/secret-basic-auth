@@ -14,19 +14,27 @@ spec:
   validationFailureAction: enforce
   background: false
   rules:
-  - name: deny-secrets-with-username-password
+  - name: deny-secrets-with-username
     match:
       resources:
         kinds:
         - Secret
     validate:
-      message: The only approved FluxCD annotations are `fluxcd.io/cow` and `fluxcd.io/dog`.
-      deny:
-        conditions:
-          all:
-          - key: "{{ request.object.data.keys(@)[?contains(@, 'username','password')] }}"
-            operator: NotEquals
-            value:
-            - username
-            - password
+      message: username not allowed.
+      pattern:
+        =(data):
+          - (name): "username"
+            value: "null"
+  - name: deny-secrets-with-password
+    match:
+      resources:
+        kinds:
+        - Secret
+    validate:
+      message: password not allowed.
+      pattern:
+        =(data):
+          - (name): "password"
+            value: "null"
+
       
