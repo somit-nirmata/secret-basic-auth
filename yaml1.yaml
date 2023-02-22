@@ -11,30 +11,20 @@ metadata:
     policies.kyverno.io/description: >-
       Restrict username and password in secret
 spec:
-  validationFailureAction: enforce
-  background: false
+  validationFailureAction: Enforce
+  background: true
   rules:
-  - name: deny-secrets-with-username
+  - name: check-secrets
     match:
-      resources:
-        kinds:
-        - Secret
+      any:
+      - resources:
+          kinds:
+          - Secret
     validate:
-      message: username not allowed.
+      message: "Cannot define username and password in secret"
       pattern:
-        =(data):
-          - (name): "username"
-            value: "null"
-  - name: deny-secrets-with-password
-    match:
-      resources:
-        kinds:
-        - Secret
-    validate:
-      message: password not allowed.
-      pattern:
-        =(data):
-          - (name): "password"
-            value: "null"
+        data:
+          username: null
+          password: null
 
       
